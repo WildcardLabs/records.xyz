@@ -1,0 +1,52 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 13%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 252 80% 74%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 252 22% 54%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+    --accent: 252 22% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 4% 25%;
+    --input: 240 4% 25%;
+    --ring: 252 80% 74%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[#1A1F2C] text-foreground font-sans antialiased;
+  }
+
+  /* ENS-specific utility classes */
+  .bg-ens-dark {
+    @apply bg-[#1A1F2C];
+  }
+
+  .bg-ens-accent {
+    @apply bg-[#9b87f5] hover:bg-[#7E69AB] transition-colors;
+  }
+
+  .text-ens-primary {
+    @apply text-[#9b87f5];
+  }
+}
