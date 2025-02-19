@@ -11,15 +11,19 @@ interface AddressRecordStatusProps {
 const AddressRecordStatus = ({ countdown }: AddressRecordStatusProps) => {
   if (countdown === undefined || countdown === 0) {
     return (
-      <TooltipProvider>
+      <TooltipProvider delayDuration={0}>
         <Tooltip>
           <TooltipTrigger>
             <Badge variant="default" className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
               Live
             </Badge>
           </TooltipTrigger>
-          <TooltipContent>
-            <p>This record is synchronized with L1</p>
+          <TooltipContent 
+            side="top" 
+            sideOffset={5} 
+            className="z-[9999] bg-[#2A2F3E]/90 text-[#8E9196] border-none"
+          >
+            <p className="whitespace-nowrap">This record is synchronized with L1</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -27,7 +31,7 @@ const AddressRecordStatus = ({ countdown }: AddressRecordStatusProps) => {
   }
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger>
           <Badge variant="default" className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20">
@@ -35,8 +39,12 @@ const AddressRecordStatus = ({ countdown }: AddressRecordStatusProps) => {
             {countdown}m
           </Badge>
         </TooltipTrigger>
-        <TooltipContent>
-          <p>Time until this record is synchronized with L1</p>
+        <TooltipContent 
+          side="top" 
+          sideOffset={5}
+          className="z-[9999] bg-[#2A2F3E]/90 text-[#8E9196] border-none"
+        >
+          <p className="whitespace-nowrap">Time until this record is synchronized with L1</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

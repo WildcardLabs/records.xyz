@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ConnectKitButton } from "connectkit";
 
@@ -12,7 +13,7 @@ const ConnectWalletButton = ({ onConnect }: ConnectWalletButtonProps) => {
         return (
           <Button 
             onClick={show}
-            className="bg-white text-black hover:bg-gray-100 text-base px-6 py-4 h-auto rounded-xl"
+            className="bg-[#9b87f5] hover:bg-[#7E69AB] text-white min-w-[120px]"
           >
             {isConnected ? "Connected" : isConnecting ? "Connecting..." : "Manage Records"}
           </Button>

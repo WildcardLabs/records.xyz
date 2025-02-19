@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ENSSelectorProps {
   selectedENS: string;
@@ -39,21 +40,23 @@ const ENSSelector = ({
 }: ENSSelectorProps) => {
   const { isConnected } = useAccount();
   const [searchQuery, setSearchQuery] = useState("");
+  const isMobile = useIsMobile();
 
-  // Show only the button if we don't have ENS names yet
-  if (!ensNames.length) {
+  if (isConnected && !isLoadingENS && !ensNames.length) {
+    return (
+      <div className="text-center text-gray-400">
+        No ENS names found for this wallet address.
+      </div>
+    );
+  }
+
+  if (!isConnected) {
     return (
       <ConnectKitButton.Custom>
         {({ show }) => (
           <Button 
-            onClick={() => {
-              if (!isConnected) {
-                show();
-              } else {
-                onAction();
-              }
-            }}
-            className="bg-ens-accent hover:bg-ens-accent/90 min-w-[120px]"
+            onClick={show}
+            className="bg-[#9b87f5] hover:bg-[#8875e6] text-white w-full sm:w-auto sm:min-w-[8rem]"
           >
             Manage Records
           </Button>
@@ -67,17 +70,17 @@ const ENSSelector = ({
     .sort((a, b) => a.localeCompare(b));
 
   return (
-    <div className="flex gap-4 justify-center">
+    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
       <Select 
         value={selectedENS}
         onValueChange={value => {
           onENSChange(value);
         }}
       >
-        <SelectTrigger className="w-[240px] bg-[#222222] border-[#403E43] text-white">
-          <SelectValue placeholder={isLoadingENS ? "Loading ENS names..." : "Select ENS name"} />
+        <SelectTrigger className="w-full sm:w-auto sm:min-w-[15rem] border-[#9b87f5] text-white text-center bg-muted/40 backdrop-blur-[2px]">
+          <SelectValue className="text-center" placeholder={isLoadingENS ? "Loading ENS names..." : "Select ENS name"} />
         </SelectTrigger>
-        <SelectContent className="bg-[#222222] border-[#403E43] w-[240px]">
+        <SelectContent className="bg-muted/40 backdrop-blur-[2px] border-[#403E43] w-full sm:w-auto sm:min-w-[15rem] z-50">
           <div className="flex items-center px-3 pb-2 pt-1 gap-2 border-b border-[#403E43]">
             <Search className="h-4 w-4 text-gray-400" />
             <Input
@@ -86,12 +89,11 @@ const ENSSelector = ({
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border-0 bg-transparent focus:ring-0 text-white placeholder:text-gray-400 h-8"
               onKeyDown={(e) => {
-                // Prevent the default select behavior when typing
                 e.stopPropagation();
               }}
             />
           </div>
-          <ScrollArea className="h-[300px]">
+          <ScrollArea className="h-[18.75rem]">
             {filteredNames.length === 0 ? (
               <div className="py-6 text-center text-sm text-gray-400">
                 No ENS names found
@@ -101,7 +103,7 @@ const ENSSelector = ({
                 <SelectItem 
                   key={name} 
                   value={name}
-                  className="text-white hover:bg-[#2A2A2A] cursor-pointer"
+                  className="text-white hover:bg-muted/30 cursor-pointer text-center"
                 >
                   {name}
                 </SelectItem>
@@ -112,8 +114,8 @@ const ENSSelector = ({
       </Select>
       <Button 
         onClick={onAction}
-        disabled={isCheckingResolver}
-        className="bg-ens-accent hover:bg-ens-accent/90 min-w-[120px]"
+        disabled={isCheckingResolver || !selectedENS}
+        className="bg-[#9b87f5] hover:bg-[#8875e6] text-white w-full sm:w-auto sm:min-w-[8rem]"
       >
         {showProfile ? "Manage Profile" : "Manage Records"}
       </Button>

@@ -31,7 +31,7 @@ export function SocialsSection({ records, onRecordChange }: SocialsSectionProps)
           <div className="relative flex items-center">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-base">@</span>
             <Input
-              value={String(records.x).replace('@', '')}
+              value=""
               onChange={(e) => onRecordChange('x', `@${e.target.value}`)}
               placeholder="username"
               className="bg-muted/30 pl-8 pr-24 text-base border-border/20 group-hover:border-[#1DA1F2]/30 transition-colors"
@@ -65,7 +65,7 @@ export function SocialsSection({ records, onRecordChange }: SocialsSectionProps)
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-base">@</span>
             )}
             <Input
-              value={noAt ? String(records[field as keyof typeof records]) : String(records[field as keyof typeof records]).replace('@', '')}
+              value=""
               onChange={(e) => onRecordChange(field, noAt ? e.target.value : `@${e.target.value}`)}
               placeholder={noAt ? "username#0000" : "username"}
               className={`bg-muted/30 text-base border-border/20 ${!noAt ? "pl-8" : ""}`}

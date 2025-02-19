@@ -20,7 +20,7 @@ const NetworkOptions = ({
         name="optimism"
         title="Optimism"
         description="Fast, reliable, and secure L2 network with low transaction fees"
-        imageSrc="/lovable-uploads/8481150f-f235-4f00-8253-1f619cc9b9c7.png"
+        imageSrc="/lovable-uploads/d340be2e-c06a-4ac9-b180-4eedc1439f4f.png"
         isSelected={selectedChain === "optimism"}
         isPending={isPending}
         isProcessing={isProcessing}

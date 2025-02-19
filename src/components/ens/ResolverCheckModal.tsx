@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import ResolverCheckContent from "./ResolverCheckContent";
 
 interface ResolverCheckModalProps {
   open: boolean;
@@ -29,22 +28,44 @@ const ResolverCheckModal = ({
   onMigrateResolver,
   onEditProfile,
 }: ResolverCheckModalProps) => {
-  // Don't render the modal if no ENS name is selected (when resolver check is triggered)
   if (!open) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#222222] text-white border-[#403E43] max-w-md">
+      <DialogContent className="sm:max-w-md bg-[#1A1F2C]/70 backdrop-blur-[4px] text-white border-[#353B4D]/20 sm:h-auto">
         <DialogHeader>
-          <DialogTitle>Resolver Check</DialogTitle>
+          <DialogTitle>Update Resolver</DialogTitle>
           <DialogDescription className="text-gray-400">
-            <ResolverCheckContent
-              isLoading={isLoading}
-              isChecking={!hasCorrectResolver && isLoading && !isMigrating}
-              hasCorrectResolver={hasCorrectResolver}
-              onMigrateResolver={onMigrateResolver}
-              onEditProfile={onEditProfile}
-            />
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+                <div className="mt-4 text-center">
+                  {isMigrating ? (
+                    <div className="space-y-2">
+                      <p>Updating resolver...</p>
+                      <p className="text-sm text-gray-500">
+                        Please follow the prompts in your wallet
+                      </p>
+                    </div>
+                  ) : (
+                    "Checking resolver status..."
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="py-4">
+                <p className="mb-4">
+                  To enable L2 record management, you need to update your ENS resolver to the latest version.
+                </p>
+                <Button
+                  onClick={onMigrateResolver}
+                  className="w-full bg-blue-500 hover:bg-blue-600"
+                  disabled={isLoading || isMigrating}
+                >
+                  Update Resolver
+                </Button>
+              </div>
+            )}
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -53,4 +74,3 @@ const ResolverCheckModal = ({
 };
 
 export default ResolverCheckModal;
-
