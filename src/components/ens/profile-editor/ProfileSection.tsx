@@ -29,10 +29,10 @@ export function ProfileSection({ records, onRecordChange }: ProfileSectionProps)
             {label}
           </Label>
           <Input
-            value={String(records[field as keyof typeof records])}
+            value=""
             onChange={(e) => onRecordChange(field, e.target.value)}
             placeholder={placeholder}
-            className="bg-muted/30 text-base border-border/20"
+            className="bg-muted/20 backdrop-blur-[2px] text-base border-border/20"
           />
         </div>
       ))}
@@ -42,18 +42,18 @@ export function ProfileSection({ records, onRecordChange }: ProfileSectionProps)
           <Link className="w-4 h-4" />
           Website
         </Label>
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-base">https://</span>
+        <div className="flex rounded-lg shadow-sm shadow-black/5">
+          <span className="flex items-center -z-10 rounded-s-lg border border-input bg-background px-3 text-sm text-muted-foreground w-[72px]">https://</span>
           <Input
-            value={String(records.website).replace('https://', '')}
+            value=""
             onChange={(e) => onRecordChange('website', `https://${e.target.value}`)}
             placeholder="example.com"
-            className="bg-muted/30 pl-[4.5rem] text-base border-border/20"
+            className="-ms-px rounded-s-none shadow-none flex-1 bg-muted/20 backdrop-blur-[2px] text-base border-border/20"
           />
         </div>
         <div className="flex items-center space-x-2 mt-2">
           <Toggle
-            pressed={records.useWebsiteAsRedirect}
+            pressed={false}
             onPressedChange={(pressed) => onRecordChange('useWebsiteAsRedirect', pressed)}
             className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground text-base"
           >

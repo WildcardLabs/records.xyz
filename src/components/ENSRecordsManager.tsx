@@ -1,19 +1,19 @@
+
 import { useState, useEffect } from 'react';
 import { useAccount, useEnsResolver, useChainId, useSwitchChain, useWriteContract, usePublicClient } from 'wagmi';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'wagmi/chains';
 import { namehash, createPublicClient, http } from 'viem';
-import { Loader2, CheckCircle2, XCircle, RefreshCw, Twitter } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, RefreshCw } from "lucide-react";
 import ConnectWalletButton from './ens/ConnectWalletButton';
 import ENSSelector from './ens/ENSSelector';
 import ResolverCheckModal from './ens/ResolverCheckModal';
-import ProfileEditorModal from './ens/ProfileEditorModal';
 import ChainSelectionModal from './ens/ChainSelectionModal';
 import ENSRecordsView from './ens/ENSRecordsView';
-import WalletStatus from './ens/WalletStatus';
 import { formatRecordsForAPI } from '@/utils/ensUtils';
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import ProfileEditor from './ProfileEditor';
 
 const ENS_REGISTRY_ABI = [{
   name: 'setResolver',
@@ -65,34 +65,79 @@ interface NewENSStatus {
 
 type SocialPlatform = "" | "x" | "farcaster";
 
-interface Records {
-  // Profile
-  name: string;
-  bio: string;
-  email: string;
-  website: string;
-  useWebsiteAsRedirect: boolean;
-  
-  // Addresses
-  ethereum: string;
-  optimism: string;
-  base: string;
-  arbitrum: string;
-  linea: string;
-  polygon: string;
-  
-  // Avatar
-  avatarPlatform: SocialPlatform;
-  avatarUsername: string;
-  headerPlatform: SocialPlatform;
-  headerUsername: string;
-  
-  // Socials
-  x: string;
-  farcaster: string;
-  github: string;
-  discord: string;
-  telegram: string;
+export interface Records {
+  header?: {
+    value: string;
+    countdown: number;
+  };
+  avatar?: {
+    value: string;
+    countdown: number;
+  };
+  name: {
+    value: string;
+    countdown: number;
+  };
+  description: {
+    value: string;
+    countdown: number;
+  };
+  url: {
+    value: string;
+    countdown: number;
+  };
+  redirect: {
+    value: string;
+    countdown: number;
+  };
+  email: {
+    value: string;
+    countdown: number;
+  };
+  twitter: {
+    value: string;
+    countdown: number;
+  };
+  farcaster: {
+    value: string;
+    countdown: number;
+  };
+  github: {
+    value: string;
+    countdown: number;
+  };
+  discord: {
+    value: string;
+    countdown: number;
+  };
+  telegram: {
+    value: string;
+    countdown: number;
+  };
+  mainnet: {
+    value: string;
+    countdown: number;
+  };
+  optimism: {
+    value: string;
+    countdown: number;
+  };
+  base: {
+    value: string;
+    countdown: number;
+  };
+  arbitrum: {
+    value: string;
+    countdown: number;
+  };
+  linea: {
+    value: string;
+    countdown: number;
+  };
+  polygon: {
+    value: string;
+    countdown: number;
+  };
 }
 
 interface RecordResponse {
@@ -121,33 +166,24 @@ const ENSRecordsManager = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [records, setRecords] = useState<Records>({
-    // Profile
-    name: "",
-    bio: "",
-    email: "",
-    website: "",
-    useWebsiteAsRedirect: false,
-    
-    // Addresses
-    ethereum: "",
-    optimism: "",
-    base: "",
-    arbitrum: "",
-    linea: "",
-    polygon: "",
-    
-    // Avatar
-    avatarPlatform: "",
-    avatarUsername: "",
-    headerPlatform: "",
-    headerUsername: "",
-    
-    // Socials
-    x: "",
-    farcaster: "",
-    github: "",
-    discord: "",
-    telegram: "",
+    header: undefined,
+    avatar: undefined,
+    name: { value: '', countdown: 0 },
+    description: { value: '', countdown: 0 },
+    url: { value: '', countdown: 0 },
+    redirect: { value: '', countdown: 0 },
+    email: { value: '', countdown: 0 },
+    twitter: { value: '', countdown: 0 },
+    farcaster: { value: '', countdown: 0 },
+    github: { value: '', countdown: 0 },
+    discord: { value: '', countdown: 0 },
+    telegram: { value: '', countdown: 0 },
+    mainnet: { value: '', countdown: 0 },
+    optimism: { value: '', countdown: 0 },
+    base: { value: '', countdown: 0 },
+    arbitrum: { value: '', countdown: 0 },
+    linea: { value: '', countdown: 0 },
+    polygon: { value: '', countdown: 0 },
   });
   
   const [showChainSelection, setShowChainSelection] = useState(false);
@@ -185,26 +221,24 @@ const ENSRecordsManager = () => {
     setShowProfile(false);
     setIsLoadingProfile(false);
     setRecords({
-      name: "",
-      bio: "",
-      email: "",
-      website: "",
-      useWebsiteAsRedirect: false,
-      ethereum: "",
-      optimism: "",
-      base: "",
-      arbitrum: "",
-      linea: "",
-      polygon: "",
-      avatarPlatform: "",
-      avatarUsername: "",
-      headerPlatform: "",
-      headerUsername: "",
-      x: "",
-      farcaster: "",
-      github: "",
-      discord: "",
-      telegram: "",
+      header: undefined,
+      avatar: undefined,
+      name: { value: '', countdown: 0 },
+      description: { value: '', countdown: 0 },
+      url: { value: '', countdown: 0 },
+      redirect: { value: '', countdown: 0 },
+      email: { value: '', countdown: 0 },
+      twitter: { value: '', countdown: 0 },
+      farcaster: { value: '', countdown: 0 },
+      github: { value: '', countdown: 0 },
+      discord: { value: '', countdown: 0 },
+      telegram: { value: '', countdown: 0 },
+      mainnet: { value: '', countdown: 0 },
+      optimism: { value: '', countdown: 0 },
+      base: { value: '', countdown: 0 },
+      arbitrum: { value: '', countdown: 0 },
+      linea: { value: '', countdown: 0 },
+      polygon: { value: '', countdown: 0 },
     });
   };
 
@@ -239,7 +273,7 @@ const ENSRecordsManager = () => {
       }
       return response.json() as Promise<RecordResponse>;
     },
-    enabled: !!selectedENS && !!address && hasCorrectResolver,
+    enabled: false, // <-- Changed this to false so it doesn't auto-fetch
   });
 
   const loadProfileData = async () => {
@@ -509,41 +543,72 @@ const ENSRecordsManager = () => {
   const handleEditProfile = async () => {
     if (selectedENS && hasCorrectResolver) {
       setShowEditor(true);
-      await loadProfileData();
-      setShowResolverCheck(false);
-    }
-  };
-
-  const handleViewProfile = async () => {
-    setShowResolverCheck(false);
-    setShowProfile(true);
-    await loadProfileData();
-  };
-
-  const handleRecordChange = (field: keyof Records, value: string | boolean) => {
-    setRecords(prev => ({ ...prev, [field]: value }));
-  };
-
-  const hasFilledRecords = () => {
-    return Object.entries(records).some(([key, value]) => {
-      if (key === 'avatarPlatform' || key === 'headerPlatform') return false;
-      if (typeof value === 'boolean') return false;
-      return typeof value === 'string' && value.trim() !== '';
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!hasFilledRecords()) {
-      toast({
-        variant: "destructive",
-        title: "No records to update",
-        description: "Please fill in at least one field before submitting.",
+      
+      // Don't reload profile data if we already have it
+      if (!profileData) {
+        await loadProfileData();
+      }
+      
+      // Convert profile data to form data format
+      const [firstName, lastName] = (profileData?.name?.value || "").split(" ");
+      const formData = {
+        firstName: firstName || "",
+        lastName: lastName || "",
+        avatarHeaderUsername: profileData?.x?.value?.replace(/^@/, '') || "",
+        website: profileData?.website?.value || "",
+        useWebsiteAsRedirect: false, // Default to false
+        email: profileData?.email?.value || "",
+        bio: profileData?.bio?.value || "",
+        socials: {
+          x: profileData?.x?.value || "",
+          farcaster: profileData?.farcaster?.value || "",
+          github: profileData?.github?.value || "",
+          discord: profileData?.discord?.value || "",
+          telegram: profileData?.telegram?.value || "",
+        },
+        addresses: {
+          ethereum: profileData?.ethereum?.value || "",
+          optimism: profileData?.optimism?.value || "",
+          base: profileData?.base?.value || "",
+          arbitrum: profileData?.arbitrum?.value || "",
+          linea: profileData?.linea?.value || "",
+          polygon: profileData?.polygon?.value || "",
+        },
+      };
+      
+      // Update the records state
+      setRecords({
+        header: profileData?.header,
+        avatar: profileData?.avatar,
+        name: profileData?.name || { value: '', countdown: 0 },
+        description: profileData?.description || { value: '', countdown: 0 },
+        url: profileData?.url || { value: '', countdown: 0 },
+        redirect: profileData?.redirect || { value: '', countdown: 0 },
+        email: profileData?.email || { value: '', countdown: 0 },
+        twitter: profileData?.twitter || { value: '', countdown: 0 },
+        farcaster: profileData?.farcaster || { value: '', countdown: 0 },
+        github: profileData?.github || { value: '', countdown: 0 },
+        discord: profileData?.discord || { value: '', countdown: 0 },
+        telegram: profileData?.telegram || { value: '', countdown: 0 },
+        mainnet: profileData?.mainnet || { value: '', countdown: 0 },
+        optimism: profileData?.optimism || { value: '', countdown: 0 },
+        base: profileData?.base || { value: '', countdown: 0 },
+        arbitrum: profileData?.arbitrum || { value: '', countdown: 0 },
+        linea: profileData?.linea || { value: '', countdown: 0 },
+        polygon: profileData?.polygon || { value: '', countdown: 0 },
       });
-      return;
     }
-    
+  };
+
+  const handleRecordChange = (field: keyof Records, value: string) => {
+    console.log(`Setting record ${field} to:`, value);
+    setRecords(prev => ({
+      ...prev,
+      [field]: { value, countdown: 0 }
+    }));
+  };
+
+  const handleFormSubmit = async (records: Record<string, string>): Promise<void> => {
     try {
       const payload = formatRecordsForAPI(selectedENS, records);
       
@@ -561,9 +626,10 @@ const ENSRecordsManager = () => {
         throw new Error('Failed to update records');
       }
 
+      // Show chain selection modal with the multicall data
       setMulticallData(data);
       setShowChainSelection(true);
-      setShowEditor(false);
+      
     } catch (error) {
       console.error('Error updating records:', error);
       toast({
@@ -584,6 +650,7 @@ const ENSRecordsManager = () => {
 
   const handleRecordsUpdateSuccess = async () => {
     setIsRefreshing(true);
+    setShowEditor(false);
     
     // Show refreshing toast
     const refreshToast = toast({
@@ -607,6 +674,15 @@ const ENSRecordsManager = () => {
     setIsRefreshing(false);
     refreshToast.dismiss();
     
+    // Reset all editor state after blockchain confirmation
+    const editorElement = document.querySelector('[role="dialog"]');
+    if (editorElement) {
+      const closeButton = editorElement.querySelector('button[aria-label="Close"]');
+      if (closeButton instanceof HTMLButtonElement) {
+        closeButton.click();
+      }
+    }
+
     // Show success toast
     toast({
       description: "Profile updated successfully!",
@@ -621,42 +697,13 @@ const ENSRecordsManager = () => {
   };
 
   return (
-    <div className="min-h-screen bg-ens-dark text-white flex flex-col items-center justify-center p-6">
-      <div className="absolute top-6 right-6">
-        <WalletStatus />
-      </div>
-      <div className="w-full max-w-4xl mx-auto text-center space-y-6">
-        <div className="flex flex-col items-center gap-4">
-          <button 
-            onClick={resetPage}
-            className="hover:opacity-80 transition-opacity"
-          >
-            <img 
-              src="/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png" 
-              alt="Records Logo" 
-              className="w-16 h-16"
-            />
-          </button>
-        </div>
+    <div className="w-full flex flex-col items-center justify-center">
+      {!isConnected && (
+        <ConnectWalletButton onConnect={() => {}} />
+      )}
 
-        <h1 className="text-4xl font-bold mb-3">Unchain Your ENS</h1>
-        
-        <p className="text-base text-gray-400 max-w-2xl mx-auto">
-          The go-to platform for managing your records across multiple L2 networks. 
-          Unlock the full potential of your ENS, anytime, anywhere.
-        </p>
-
-        <a 
-          href="https://twitter.com/records_xyz" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-        >
-          <Twitter size={16} />
-          <span>Follow @records_xyz for updates</span>
-        </a>
-
-        <div className="mt-6">
+      {isConnected && (
+        <div className="w-full flex flex-col items-center gap-4">
           <ENSSelector
             selectedENS={selectedENS}
             onENSChange={handleENSChange}
@@ -668,48 +715,46 @@ const ENSRecordsManager = () => {
             isLoadingENS={isLoadingENS}
             isCheckingResolver={isLoading}
           />
-        </div>
 
-        {showProfile && (
-          <ENSRecordsView 
-            ensName={selectedENS} 
-            onEditClick={() => setShowEditor(true)}
-            isLoading={isLoadingProfile || isRefreshing}
-            profileData={profileData}
+          {showProfile && (
+            <div className="w-full">
+              <ENSRecordsView 
+                ensName={selectedENS} 
+                onEditClick={handleEditProfile}
+                isLoading={isLoadingProfile || isRefreshing}
+                profileData={profileData}
+              />
+            </div>
+          )}
+
+          <ResolverCheckModal
+            open={showResolverCheck}
+            onOpenChange={setShowResolverCheck}
+            isLoading={isLoading}
+            isMigrating={isMigrating}
+            hasCorrectResolver={hasCorrectResolver}
+            onMigrateResolver={handleMigrateResolver}
+            onEditProfile={handleEditProfile}
           />
-        )}
 
-        <ResolverCheckModal
-          open={showResolverCheck}
-          onOpenChange={setShowResolverCheck}
-          isLoading={isLoading}
-          isMigrating={isMigrating}
-          hasCorrectResolver={hasCorrectResolver}
-          onMigrateResolver={handleMigrateResolver}
-          onEditProfile={handleViewProfile}
-        />
+          <ProfileEditor
+            open={showEditor}
+            onOpenChange={setShowEditor}
+            selectedENS={selectedENS}
+            records={records}
+            onRecordChange={handleRecordChange}
+            onSubmit={handleFormSubmit}
+          />
 
-        <ProfileEditorModal
-          open={showEditor}
-          onOpenChange={setShowEditor}
-          selectedENS={selectedENS}
-          records={records}
-          onRecordChange={handleRecordChange}
-          onSubmit={handleSubmit}
-        />
-
-        <ChainSelectionModal
-          open={showChainSelection}
-          onOpenChange={setShowChainSelection}
-          onChainSelect={handleChainSelect}
-          multicallData={multicallData}
-          onSuccess={handleRecordsUpdateSuccess}
-        />
-
-        <div className="mt-16 text-gray-500 text-sm">
-          © 2025 Records.xyz by @WildcardLabs
+          <ChainSelectionModal
+            open={showChainSelection}
+            onOpenChange={setShowChainSelection}
+            onChainSelect={handleChainSelect}
+            multicallData={multicallData}
+            onSuccess={handleRecordsUpdateSuccess}
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -32,7 +32,7 @@ export function AddressesSection({ records, onRecordChange }: AddressesSectionPr
             <span className="text-base font-medium">{name}</span>
           </div>
           <Input
-            value={String(records[key as keyof typeof records])}
+            value=""
             onChange={(e) => onRecordChange(key, e.target.value)}
             placeholder="0x..."
             className="bg-muted/30 text-base border-border/20"
