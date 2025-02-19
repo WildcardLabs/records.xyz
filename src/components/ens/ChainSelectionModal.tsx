@@ -197,7 +197,7 @@ const ChainSelectionModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1A1F2C]/70 backdrop-blur-[4px] text-white border-[#353B4D]/20 max-w-md h-auto max-h-[60vh] overflow-y-auto rounded-2xl flex flex-col justify-center">
+      <DialogContent className="bg-[#1A1F2C]/70 backdrop-blur-[4px] text-white border-[#353B4D]/20 max-w-md h-auto max-h-[80vh] overflow-y-auto rounded-2xl flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-2">Select Network</DialogTitle>
           <DialogDescription className="text-gray-400">
