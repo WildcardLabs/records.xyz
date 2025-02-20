@@ -53,7 +53,7 @@ const NAME_WRAPPER_OWNER_ABI = [{
 
 const ENS_REGISTRY_ADDRESS = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e' as const;
 const NAME_WRAPPER_ADDRESS = '0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401' as const;
-const CORRECT_RESOLVER = '0x4025fE371f146F8315e76B944c36E9f03B64002C' as `0x${string}`;
+const CORRECT_RESOLVER = '0x057Fe5521fa2e222fD823c4b4Bd0f6f1998a95C7' as `0x${string}`;
 
 interface ENSResolverStatus {
   [key: string]: boolean;
