@@ -1,7 +1,7 @@
 
 # Records.xyz
 
-![Records Logo](/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png)
+![Records Logo](public/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png)
 
 Records.xyz is a powerful platform designed to help users manage their ENS (Ethereum Name Service) records across Layer 2 networks with ease. Our platform simplifies the process of updating and maintaining ENS profiles, social links, and wallet addresses.
 
