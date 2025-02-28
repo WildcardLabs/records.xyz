@@ -50,7 +50,6 @@ const Index = () => {
                 AvatarSync
               </a>
               <a 
-                href="https://docs.records.xyz" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#8E9196] hover:text-white transition-colors px-3 py-2 rounded-lg text-sm font-medium flex items-center"

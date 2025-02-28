@@ -104,7 +104,6 @@ const MobileMenu = () => {
                 AvatarSync
               </a>
               <a 
-                href="https://docs.records.xyz" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:bg-ens-dark-hover transition-colors px-3 py-2.5 rounded-lg text-sm font-medium flex items-center group"
