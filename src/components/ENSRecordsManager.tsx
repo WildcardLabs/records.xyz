@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAccount, useEnsResolver, useChainId, useSwitchChain, useWriteContract, usePublicClient } from 'wagmi';
 import { useQuery } from '@tanstack/react-query';
@@ -193,6 +192,9 @@ const ENSRecordsManager = () => {
   const { writeContractAsync } = useWriteContract();
   const { toast } = useToast();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  // Fix the basename detection logic - a basename is any *.base.eth name
+  const isBasename = selectedENS.endsWith('.base.eth');
 
   useEffect(() => {
     setSelectedENS("");
@@ -251,7 +253,7 @@ const ENSRecordsManager = () => {
     queryKey: ['ens-names', address],
     queryFn: async () => {
       if (!address) return [];
-      const response = await fetch(`https://us-central1-matic-services.cloudfunctions.net/domainlist?address=${address}`);
+      const response = await fetch(`https://us-central1-superchain-resolver.cloudfunctions.net/domainlist?address=${address}`);
       if (!response.ok) {
         throw new Error('Failed to fetch ENS names');
       }
@@ -261,13 +263,18 @@ const ENSRecordsManager = () => {
   });
 
   const { data: profileData, refetch: refetchProfile } = useQuery({
-    queryKey: ['ens-records', selectedENS, address],
+    queryKey: ['ens-records', selectedENS, address, isBasename],
     queryFn: async () => {
       if (!selectedENS || !address) return null;
       const node = namehash(selectedENS);
-      const response = await fetch(
-        `https://us-central1-superchain-resolver.cloudfunctions.net/super-records?node=${node}&addr=${address}`
-      );
+      
+      // Use different API endpoint for basenames
+      const apiEndpoint = isBasename 
+        ? `https://us-central1-superchain-resolver.cloudfunctions.net/baserecords?node=${node}&addr=${address}`
+        : `https://us-central1-superchain-resolver.cloudfunctions.net/super-records?node=${node}&addr=${address}`;
+      
+      const response = await fetch(apiEndpoint);
+      
       if (!response.ok) {
         throw new Error('Failed to fetch records');
       }
@@ -277,7 +284,8 @@ const ENSRecordsManager = () => {
   });
 
   const loadProfileData = async () => {
-    if (!hasCorrectResolver) {
+    // Skip resolver check for basenames
+    if (!isBasename && !hasCorrectResolver) {
       return;
     }
     setIsLoadingProfile(true);
@@ -294,19 +302,33 @@ const ENSRecordsManager = () => {
     
     if (value) {
       setIsLoading(true);
-
-      const currentResolver = await mainnetClient.getEnsResolver({
-        name: value,
-      });
       
-      const isCorrect = currentResolver?.toLowerCase() === CORRECT_RESOLVER.toLowerCase();
+      // Check if this is a basename
+      const isBasename = value.endsWith('.base.eth');
       
-      setHasCorrectResolver(isCorrect);
-      setCheckedENS(value);
-      setResolverStatuses(prev => ({
-        ...prev,
-        [value]: isCorrect
-      }));
+      // Skip resolver check for basenames and set hasCorrectResolver to true
+      if (isBasename) {
+        setHasCorrectResolver(true);
+        setCheckedENS(value);
+        setResolverStatuses(prev => ({
+          ...prev,
+          [value]: true
+        }));
+      } else {
+        // For regular ENS names, check resolver as usual
+        const currentResolver = await mainnetClient.getEnsResolver({
+          name: value,
+        });
+        
+        const isCorrect = currentResolver?.toLowerCase() === CORRECT_RESOLVER.toLowerCase();
+        
+        setHasCorrectResolver(isCorrect);
+        setCheckedENS(value);
+        setResolverStatuses(prev => ({
+          ...prev,
+          [value]: isCorrect
+        }));
+      }
       
       setIsLoading(false);
     }
@@ -316,7 +338,12 @@ const ENSRecordsManager = () => {
     if (showProfile) {
       loadProfileData();
     } else {
-      if (!hasCorrectResolver) {
+      if (isBasename) {
+        // For basenames, skip resolver check and go straight to profile
+        setHasCorrectResolver(true);
+        setShowProfile(true);
+        loadProfileData();
+      } else if (!hasCorrectResolver) {
         setShowResolverCheck(true);
       } else {
         setShowProfile(true);
@@ -345,6 +372,19 @@ const ENSRecordsManager = () => {
         className: "bg-[#1A1F2C] border-red-500 text-white",
         duration: 5000,
       });
+      return;
+    }
+    
+    // Skip resolver check for basenames
+    if (isBasename) {
+      setHasCorrectResolver(true);
+      setCheckedENS(selectedENS);
+      setResolverStatuses(prev => ({
+        ...prev,
+        [selectedENS]: true
+      }));
+      setShowProfile(true);
+      await loadProfileData();
       return;
     }
     
@@ -735,6 +775,7 @@ const ENSRecordsManager = () => {
             hasCorrectResolver={hasCorrectResolver}
             onMigrateResolver={handleMigrateResolver}
             onEditProfile={handleEditProfile}
+            isBasename={isBasename}
           />
 
           <ProfileEditor
@@ -752,6 +793,7 @@ const ENSRecordsManager = () => {
             onChainSelect={handleChainSelect}
             multicallData={multicallData}
             onSuccess={handleRecordsUpdateSuccess}
+            isBasename={isBasename}
           />
         </div>
       )}
