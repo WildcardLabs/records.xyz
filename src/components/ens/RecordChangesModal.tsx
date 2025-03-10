@@ -17,6 +17,9 @@ interface RecordChangesModalProps {
   isProcessing: boolean;
   changedRecords: Record<string, string>;
   onContinue: (chainId: number, chainType: "optimism" | "base") => void;
+  isBasename?: boolean;
+  networkType?: "optimism" | "base";
+  selectedENS?: string; // Add selectedENS prop
 }
 
 const RecordChangesModal = ({
@@ -26,6 +29,9 @@ const RecordChangesModal = ({
   isProcessing,
   changedRecords,
   onContinue,
+  isBasename = false,
+  networkType = "optimism",
+  selectedENS = "", // Default to empty string
 }: RecordChangesModalProps) => {
   const isMobile = useIsMobile();
   
@@ -51,6 +57,8 @@ const RecordChangesModal = ({
             isProcessing={isProcessing}
             changedRecords={changedRecords}
             onContinue={onContinue}
+            isBasename={isBasename}
+            selectedENS={selectedENS}
           />
         </div>
       </DialogContent>
@@ -59,4 +67,3 @@ const RecordChangesModal = ({
 };
 
 export default RecordChangesModal;
-
