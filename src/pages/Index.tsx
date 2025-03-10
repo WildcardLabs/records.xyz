@@ -1,10 +1,9 @@
-
 import ENSRecordsManager from "@/components/ENSRecordsManager";
 import { FileText, Replace, ChevronsRight } from "lucide-react";
 import WalletStatus from "@/components/ens/WalletStatus";
 import { useIsMobile } from "@/hooks/use-mobile";
 import MobileMenu from "@/components/MobileMenu";
-import { cn } from "@/lib/utils";
+import NewFeatureNotice from "@/components/ens/NewFeatureNotice";
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -50,6 +49,7 @@ const Index = () => {
                 AvatarSync
               </a>
               <a 
+                href="https://docs.records.xyz" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#8E9196] hover:text-white transition-colors px-3 py-2 rounded-lg text-sm font-medium flex items-center"
@@ -85,6 +85,9 @@ const Index = () => {
       <main className="flex-1 flex items-center justify-center py-8 sm:py-16 relative z-10">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center">
+            {/* New feature notice */}
+            <NewFeatureNotice />
+
             <div className="text-center max-w-2xl mx-auto px-4 sm:px-0 mb-6 sm:mb-10">
               <h1 className="text-2xl sm:text-4xl font-bold text-white">
                 The Simple, <span className="text-[#9b87f5]">Cross-Chain</span> Records Manager for Everyone
