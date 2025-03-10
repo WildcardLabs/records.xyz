@@ -85,7 +85,7 @@ const Index = () => {
       <main className="flex-1 flex items-center justify-center py-8 sm:py-16 relative z-10">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center">
-            {/* New feature notice */}
+            {/* Basenames support notice */}
             <NewFeatureNotice />
 
             <div className="text-center max-w-2xl mx-auto px-4 sm:px-0 mb-6 sm:mb-10">
