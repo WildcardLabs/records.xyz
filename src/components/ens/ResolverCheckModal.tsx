@@ -17,6 +17,7 @@ interface ResolverCheckModalProps {
   hasCorrectResolver: boolean;
   onMigrateResolver: () => void;
   onEditProfile: () => void;
+  isBasename?: boolean;
 }
 
 const ResolverCheckModal = ({
@@ -27,8 +28,10 @@ const ResolverCheckModal = ({
   hasCorrectResolver,
   onMigrateResolver,
   onEditProfile,
+  isBasename = false,
 }: ResolverCheckModalProps) => {
-  if (!open) return null;
+  // Skip displaying the modal completely for basenames
+  if (isBasename || !open) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -54,16 +57,18 @@ const ResolverCheckModal = ({
               </div>
             ) : (
               <div className="py-4">
-                <p className="mb-4">
-                  To enable L2 record management, you need to update your ENS resolver to the latest version.
-                </p>
-                <Button
-                  onClick={onMigrateResolver}
-                  className="w-full bg-blue-500 hover:bg-blue-600"
-                  disabled={isLoading || isMigrating}
-                >
-                  Update Resolver
-                </Button>
+                <div>
+                  <p className="mb-4">
+                    To enable L2 record management, you need to update your ENS resolver to the latest version.
+                  </p>
+                  <Button
+                    onClick={onMigrateResolver}
+                    className="w-full bg-blue-500 hover:bg-blue-600"
+                    disabled={isLoading || isMigrating}
+                  >
+                    Update Resolver
+                  </Button>
+                </div>
               </div>
             )}
           </DialogDescription>
