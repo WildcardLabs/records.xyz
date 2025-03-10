@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { User, Globe, MessageCircle, Github, Copy, Database, PenSquare, ExternalLink, Send } from "lucide-react";
+import { User, Globe, MessageCircle, Github, Copy, Database, PenSquare, ExternalLink, Send, ImageOff } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import AddressRecordStatus from './AddressRecordStatus';
@@ -132,20 +132,37 @@ const ProfileView = ({ ensName, onEditClick, isLoading = false, profileData }: P
     );
   }
 
+  // Header placeholder with a gradient background when no header image exists
+  const headerBackground = () => {
+    if (profileData?.header?.value) {
+      return {
+        backgroundImage: `url(${profileData.header.value})`,
+        backgroundColor: undefined
+      };
+    }
+    
+    // Use a nice gradient as placeholder when no header image exists
+    return {
+      backgroundImage: 'linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)',
+      backgroundColor: undefined
+    };
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto mt-4 sm:mt-8">
       <div className="bg-[#1A1F2C]/5 backdrop-blur-[2px] rounded-2xl overflow-hidden border border-[#353B4D]/20">
         <div 
-          className="w-full h-32 sm:h-48 bg-cover bg-center"
-          style={{ 
-            backgroundImage: profileData?.header?.value 
-              ? `url(${profileData.header.value})`
-              : profileData?.avatar?.value 
-                ? `url(${profileData.avatar.value})`
-                : undefined,
-            backgroundColor: '#2A2A2A' 
-          }}
-        />
+          className="w-full h-32 sm:h-48 bg-cover bg-center relative"
+          style={headerBackground()}
+        >
+          {!profileData?.header?.value && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-black/20 backdrop-blur-sm rounded-full p-2">
+                <ImageOff className="h-8 w-8 text-white/70" />
+              </div>
+            </div>
+          )}
+        </div>
         
       <div className="px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between relative">
