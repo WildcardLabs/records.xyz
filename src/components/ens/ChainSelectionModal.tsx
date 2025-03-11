@@ -1,3 +1,4 @@
+
 import { useChainId, useSwitchChain, useWriteContract, useAccount, usePublicClient } from 'wagmi';
 import {
   Dialog,
@@ -16,7 +17,10 @@ import { base, optimism } from 'viem/chains';
 import NetworkOptions from "./network-options/NetworkOptions";
 import TransactionStatus from "./transaction/TransactionStatus";
 
+// Default resolver contract
 const RESOLVER_CONTRACT = '0x77526a5Ca82028cA9Bb2f2380Da59B386A4EE03f' as const;
+// Special contract for basenames
+const BASE_CONTRACT = '0xC6d566A56A1aFf6508b41f6c90ff131615583BCD' as const;
 
 interface ChainSelectionModalProps {
   open: boolean;
@@ -24,6 +28,7 @@ interface ChainSelectionModalProps {
   onChainSelect: (chain: "optimism" | "base") => void;
   multicallData: { calls: readonly `0x${string}`[] } | null;
   onSuccess?: () => Promise<void>;
+  isBasename?: boolean;
 }
 
 const ChainSelectionModal = ({
@@ -32,6 +37,7 @@ const ChainSelectionModal = ({
   onChainSelect,
   multicallData,
   onSuccess,
+  isBasename = false,
 }: ChainSelectionModalProps) => {
   const chainId = useChainId();
   const { switchChain, isPending } = useSwitchChain();
@@ -45,6 +51,17 @@ const ChainSelectionModal = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  // Force Base selection for basenames
+  useEffect(() => {
+    if (isBasename && open) {
+      setSelectedChain("base");
+      // If we're already on Base chain, mark as ready to continue
+      if (chainId === 8453) {
+        setReadyToContinue(true);
+      }
+    }
+  }, [isBasename, open, chainId]);
+
   useEffect(() => {
     if (open) {
       const timer = setTimeout(() => {
@@ -57,6 +74,12 @@ const ChainSelectionModal = ({
   }, [open]);
 
   const handleChainSelect = async (targetChainId: number, chainType: "optimism" | "base") => {
+    // If it's a basename, always force Base chain
+    if (isBasename) {
+      chainType = "base";
+      targetChainId = 8453; // Base chain ID
+    }
+    
     setSelectedChain(chainType);
     setReadyToContinue(false);
     
@@ -100,7 +123,14 @@ const ChainSelectionModal = ({
         className: "bg-[#1A1F2C] border-blue-500 text-white",
       });
 
-      const targetChain = selectedChain === 'optimism' ? optimism : base;
+      // If it's a basename, force Base chain and BASE_CONTRACT
+      const targetChain = (isBasename) ? base : (selectedChain === 'optimism' ? optimism : base);
+      const contractAddress = isBasename ? BASE_CONTRACT : RESOLVER_CONTRACT;
+
+      console.log('Using contract address:', contractAddress);
+      console.log('Is basename:', isBasename);
+      console.log('Selected chain:', selectedChain);
+      console.log('Chain to use:', targetChain.name);
 
       const resolverABI = [{
         type: 'function',
@@ -111,7 +141,7 @@ const ChainSelectionModal = ({
       }] as const;
 
       const hash = await writeContractAsync({
-        address: RESOLVER_CONTRACT,
+        address: contractAddress,
         abi: resolverABI,
         functionName: 'multicall',
         args: [multicallData.calls],
@@ -169,7 +199,8 @@ const ChainSelectionModal = ({
           await onSuccess();
         }
 
-        onChainSelect(selectedChain);
+        // For basenames, always return "base" as selected chain
+        onChainSelect(isBasename ? "base" : selectedChain);
         onOpenChange(false);
       } else {
         throw new Error('Transaction failed');
@@ -197,7 +228,7 @@ const ChainSelectionModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1A1F2C]/70 backdrop-blur-[4px] text-white border-[#353B4D]/20 max-w-md h-auto max-h-[80vh] overflow-y-auto rounded-2xl flex flex-col justify-center">
+      <DialogContent className="bg-[#1A1F2C]/70 backdrop-blur-[4px] text-white border-[#353B4D]/20 max-w-md h-[80vh] sm:h-auto max-h-[80vh] overflow-y-auto rounded-2xl flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-2">Select Network</DialogTitle>
           <DialogDescription className="text-gray-400">
@@ -210,6 +241,7 @@ const ChainSelectionModal = ({
           isPending={isPending}
           isProcessing={isProcessing}
           onChainSelect={handleChainSelect}
+          isBasename={isBasename}
         />
 
         <TransactionStatus

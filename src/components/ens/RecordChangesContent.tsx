@@ -1,14 +1,16 @@
-
 import { Loader2, AlertCircle, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useEffect, useState } from "react";
 
 interface RecordChangesContentProps {
   isPending: boolean;
   isProcessing: boolean;
   changedRecords: Record<string, string>;
   onContinue: (chainId: number, chainType: "optimism" | "base") => void;
+  isBasename?: boolean;
+  selectedENS?: string; // Add the ENS name for additional verification
 }
 
 const RecordChangesContent = ({
@@ -16,8 +18,26 @@ const RecordChangesContent = ({
   isProcessing,
   changedRecords,
   onContinue,
+  isBasename = false,
+  selectedENS = "",
 }: RecordChangesContentProps) => {
   const isMobile = useIsMobile();
+  const [verifiedBasename, setVerifiedBasename] = useState<boolean | null>(null);
+  
+  // Verify if this is actually a basename by explicitly checking ENS name format
+  useEffect(() => {
+    // Check both the passed prop and the name string format (*.base.eth)
+    const endsWithBaseEth = selectedENS.toLowerCase().endsWith('.base.eth');
+    console.log("Basename verification:", { 
+      propValue: isBasename, 
+      selectedENS, 
+      endsWithBaseEth
+    });
+    
+    // A name is a basename if either the prop is true or it ends with .base.eth
+    const isActuallyBasename = isBasename || endsWithBaseEth;
+    setVerifiedBasename(isActuallyBasename);
+  }, [isBasename, selectedENS]);
 
   if (isPending) {
     return (
@@ -118,13 +138,15 @@ const RecordChangesContent = ({
       <div className="p-4 border-t border-[#353B4D]/20 flex-shrink-0">
         <div className="mb-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
           <p className="text-sm text-blue-400">
-            Note: Updates made on L2 networks (Optimism/Base) will be synchronized to L1 Ethereum within approximately 1 hour.
+            {verifiedBasename === true 
+              ? "Updates to your Basename will be applied instantly."
+              : "Updates made on L2 networks (Optimism/Base) will be synchronized to L1 Ethereum within approximately 1 hour."}
           </p>
         </div>
 
         <Button 
-          onClick={() => onContinue(10, "optimism")}
-          className="w-full bg-blue-500 hover:bg-blue-600"
+          onClick={() => onContinue(verifiedBasename ? 8453 : 10, verifiedBasename ? "base" : "optimism")}
+          className={`w-full ${verifiedBasename ? 'bg-[#0052FF] hover:bg-[#0052FF]/80' : 'bg-blue-500 hover:bg-blue-600'}`}
           disabled={isPending || isProcessing}
         >
           Confirm updates
@@ -135,4 +157,3 @@ const RecordChangesContent = ({
 };
 
 export default RecordChangesContent;
-

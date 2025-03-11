@@ -50,6 +50,7 @@ export interface ProfileEditorProps {
   records: Records;
   onRecordChange: (field: string, value: string) => void;
   onSubmit: (records: Record<string, string>) => Promise<void>;
+  isBasename?: boolean;
 }
 
 const ProfileEditor = ({
@@ -58,7 +59,8 @@ const ProfileEditor = ({
   selectedENS,
   records,
   onRecordChange,
-  onSubmit
+  onSubmit,
+  isBasename = false
 }: ProfileEditorProps) => {
   const [step, setStep] = useState(1);
   const TOTAL_STEPS = 3;
@@ -93,8 +95,9 @@ const ProfileEditor = ({
   const [avatarUrl, setAvatarUrl] = useState(records.avatar?.value || "");
   const [headerUrl, setHeaderUrl] = useState(records.header?.value || "");
   const [showRecordChanges, setShowRecordChanges] = useState(false);
+  // Determine if the selected ENS is a basename
+  const isSelectedBasename = isBasename || selectedENS.endsWith('.base.eth');
 
-  // Reset state when modal opens
   useEffect(() => {
     if (open) {
       setFormData({
@@ -129,7 +132,7 @@ const ProfileEditor = ({
   }, [open, records]);
 
   const handleOpenChange = (open: boolean) => {
-    if (!open && !isSubmitting) {
+    if (!open && !isSubmitting) {  // Only allow closing if not submitting
       setStep(1);
     }
     onOpenChange(open);
@@ -386,6 +389,9 @@ const ProfileEditor = ({
         isProcessing={isSubmitting}
         changedRecords={changedRecords}
         onContinue={handleNetworkSelection}
+        isBasename={isSelectedBasename}
+        networkType={isSelectedBasename ? "base" : "optimism"}
+        selectedENS={selectedENS}
       />
     </>
   );
