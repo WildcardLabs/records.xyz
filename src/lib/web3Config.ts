@@ -1,9 +1,9 @@
 
 import { createConfig, http } from 'wagmi';
-import { mainnet, optimism, base } from 'wagmi/chains';
+import { mainnet, optimism, base, linea } from 'wagmi/chains';
 import { getDefaultConfig } from 'connectkit';
 
-const chains = [mainnet, optimism, base] as const;
+const chains = [mainnet, optimism, base, linea] as const;
 
 export const config = createConfig(
   getDefaultConfig({
@@ -14,6 +14,7 @@ export const config = createConfig(
       [mainnet.id]: http(),
       [optimism.id]: http(),
       [base.id]: http(),
+      [linea.id]: http(),
     },
 
     // Required
