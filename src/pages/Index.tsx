@@ -114,7 +114,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <a 
-                href="https://twitter.com/records_xyz" 
+                href="https://x.com/records_xyz" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-sm text-[#8E9196] hover:text-white transition-colors"
