@@ -30,16 +30,16 @@ Think of it like a **Linktree for payments**, but smarter: handling split identi
 ### **How It Works**  
 
 1. **Login with Social**  
-   Fast onboarding via socials — your username auto-generates your subdomain page.  
+   Fast onboarding via socials. Your social username helps generate your personal payment page instantly. 
 
-2. **Get Your Personal Page**  
-   Your `*.records.xyz` page is **also the primary ENS name of your routing contract** — visible on block explorers.  
-
+2. **Your Personal Payment Page**  
+   Your page (e.g., alice.records.xyz) is ready to share — a single link anyone can use to send you digital dollars.
+⚡ Bonus: This subdomain also acts as the primary ENS name of your routing contract, so all transactions are visible and named on block explorers.
 3. **Link Your Wallets**  
-   Add EOAs, smart accounts, or app wallets. Configure splits so payments reach the right wallets.  
+   Add your app wallets, smart accounts, or EOAs. Decide how your digital dollars should be split across them.
 
 4. **Share & Get Paid**  
-   Copy your link or QR code. Fans, collaborators, or anyone can pay you — digital dollars automatically route and split across your wallets.  
+   Copy your link or QR code, share it anywhere. Payments automatically flow to your selected wallets, keeping your split personas unified.
 
 ---
 
