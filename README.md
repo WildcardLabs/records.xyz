@@ -1,86 +1,85 @@
 
 # Records.xyz
 
-<img src="public/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png" width=100 height=100>
+<img src="public/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png" width=50 height=50>
 
-Records.xyz is a powerful platform designed to help users manage their ENS (Ethereum Name Service) records across Layer 2 networks with ease. Our platform simplifies the process of updating and maintaining ENS profiles, social links, and wallet addresses.
+[![Website](https://img.shields.io/badge/Website-Records.xyz-blue?style=for-the-badge)](https://records.xyz) [![Twitter](https://img.shields.io/badge/Twitter-@recordsxyz-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/records_xyz) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## Features
+---
 
-### Multi-Chain ENS Management
-Currently supporting:
-- Optimism
-- Base
+🎯  **One payment link for all your wallets.**
 
-With plans to expand to additional L2 networks in the future!
+💡  You create everywhere, but getting paid shouldn’t be a scavenger hunt. Share your link, and we’ll make sure your digital dollars land in the right wallets, on the right apps.
 
-### Profile Management
-- Set and manage profile information:
-  - Name and bio
-  - Email and website
-  - Profile picture and header image (with X/Twitter integration)
-  - Social media links (X/Twitter, Farcaster, GitHub, Discord, Telegram)
+---
 
-### Address Records
-- Manage wallet addresses for multiple chains:
-  - Ethereum
-  - Optimism
-  - Base
-  - Arbitrum
-  - Linea
-  - Polygon
-- Cross-chain compatibility
-- Gas-efficient batch updates
+## **What is Records.xyz?**  
 
-### AvatarSync
-- Automatically sync your X/Twitter profile picture as your ENS avatar
-- Real-time updates when your profile picture changes
-- Easy integration with just your X/Twitter username
-- Header image sync also available
+**Records.xyz** gives creators a **single, shareable payment page** that unifies all your app wallets and digital personas.  
 
-### ENS Redirect
-- Use your ENS name as a personal landing page
-- Redirect visitors to your website or social profile
-- Customizable redirect settings
-- Perfect for personal branding
+Fans, collaborators, or clients often don’t know which wallet to pay. We solve this by giving you:  
 
-## Getting Started
+- 🌟 **One link for all your wallets**  
+- 💸 **Automatic splits** — route payments to the app wallets you choose  
+- 🖼️ **Shareable page** — QR code, balances, and routing info for anyone to pay  
+- 🔗 **Quick onboarding** — generate your subdomain from your social username  
 
-1. Connect your Web3 wallet (MetaMask, WalletConnect, etc.)
-2. Select your ENS name from the dropdown
-3. Check resolver compatibility
-4. Update your records across supported chains
+Think of it like a **Linktree for payments**, but smarter: handling split identities and app wallets automatically.
 
-## Development
+---
+## **How It Works**  
 
-This project is built with modern web technologies:
+1. **Login with Social**  
+   Fast onboarding via socials — your username auto-generates your subdomain page.  
 
-- React + TypeScript
-- Vite
-- Tailwind CSS
-- wagmi
-- viem
-- shadcn/ui components
+2. **Get Your Personal Page**  
+   Your `*.records.xyz` page is **also the primary ENS name of your routing contract** — visible on block explorers.  
 
-To run the project locally:
+3. **Link Your Wallets**  
+   Add EOAs, smart accounts, or app wallets. Configure splits so payments reach the right wallets.  
 
-```bash
-# Install dependencies
-npm install
+4. **Share & Get Paid**  
+   Copy your link or QR code. Fans, collaborators, or anyone can pay you — digital dollars automatically route and split across your wallets.  
 
-# Start the development server
-npm run dev
-```
+---
 
-## Contributing
+## **Features**  
 
-We welcome contributions! Feel free to submit issues and pull requests.
+| Feature | Description |
+|---------|-------------|
+| 🌟 One Payment Link | Unify multiple wallets under a single page |
+| 💡 Split Digital Dollars | Route payments to selected app wallets automatically |
+| 🖼️ Shareable Frontend | QR codes, balances, and payment info for fans and collaborators |
+| 🔗 Social-Onboarded Subdomain | Quick creation from your social username |
+| 🌐 Unifying Split Personas | Manage payments across your creative worlds |
+| 🛡️ ENS Visibility | Your subdomain is the **primary ENS name** of your routing contract, visible on block explorers |
+| ⚡ Creator-Centric | Designed for multi-app, multi-wallet creators |
 
-## Connect With Us
+---
 
-Follow [@records_xyz](https://twitter.com/records_xyz) on X/Twitter for updates and announcements.
+## **Why Creators Love It**  
 
-## License
+- No more juggling multiple addresses across apps  
+- Collect payments from anyone with **one link**  
+- Automatic routing and splits across all your wallets  
+- Keep your **split personas unified** effortlessly  
+- ENS visibility gives your routing contract a **human-readable name** on-chain  
 
-© 2025 Records.xyz by @WildcardLabs. All rights reserved.
+---
+
+## **Getting Started (Creators)**  
+
+1. Visit [https://records.xyz](https://records.xyz)  
+2. Log in via your social account to generate your subdomain page  
+3. Link your app wallets and configure split rules  
+4. Share your page — start getting payments routed to all your wallets  
+
+**One link. All your worlds.**
+
+---
+
+
+
+## **License**  
+MIT License © 2025 Records.xyz 
 
