@@ -3,7 +3,7 @@
 
 <img src="public/lovable-uploads/28193e56-2ecb-4f1d-88b9-9b88704698a0.png" width=50 height=50>
 
-[![Website](https://img.shields.io/badge/Website-Records.xyz-blue?style=for-the-badge)](https://records.xyz) [![Twitter](https://img.shields.io/badge/Twitter-@recordsxyz-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/records_xyz) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Website](https://img.shields.io/badge/Website-Records.xyz-blue?style=for-the-badge)](https://records.xyz) [![Twitter](https://img.shields.io/badge/Twitter-@records_xyz-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/records_xyz) [![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
 
