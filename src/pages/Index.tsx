@@ -1,4 +1,4 @@
-import ENSRecordsManager from "@/components/ENSRecordsManager";
+import ENSRecordsAuthManager from "@/components/ENSRecordsAuthManager";
 import { FileText, Replace, ChevronsRight } from "lucide-react";
 import WalletStatus from "@/components/ens/WalletStatus";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -69,14 +69,14 @@ const Index = () => {
             </nav>
 
             {/* Right section with wallet/mobile menu */}
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <div className="hidden md:block">
                 <WalletStatus />
               </div>
               <div className="md:hidden">
                 <MobileMenu />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
@@ -86,19 +86,19 @@ const Index = () => {
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center">
             {/* Basenames support notice */}
-            <NewFeatureNotice />
+            {/* <NewFeatureNotice /> */}
 
             <div className="text-center max-w-2xl mx-auto px-4 sm:px-0 mb-6 sm:mb-10">
               <h1 className="text-2xl sm:text-4xl font-bold text-white">
-                The Simple, <span className="text-[#9b87f5]">Cross-Chain</span> Records Manager for Everyone
+                One <span className="text-[#9b87f5]">Payment Link</span> for all your Wallets
               </h1>
               <p className="mt-4 text-sm sm:text-base text-gray-400 w-full sm:w-[60%] mx-auto">
-                Take control, sync, and personalize your ENS profile like never before.
+                You create everywhere, but getting paid shouldn’t be a scavenger hunt. Share your link, and we’ll make sure your digital dollars land in the right wallets, on the right apps.
               </p>
             </div>
             <div className="flex flex-col gap-8 items-center w-full">
               <div className="w-full max-w-2xl mx-auto">
-                <ENSRecordsManager />
+                <ENSRecordsAuthManager />
               </div>
             </div>
           </div>
